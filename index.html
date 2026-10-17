@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#100812">
+    <meta name="description" content="A birthday surprise made just for you.">
+    <title>A Special Day for You 💜</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --text: #fff8ff;
+        --muted: #c7b6d0;
+        --pink: #ff8dcc;
+        --plum: #24102f;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        color: var(--text);
+        background:
+          radial-gradient(ellipse at 50% 36%, rgba(112, 34, 145, .3), transparent 48%),
+          radial-gradient(ellipse at 15% 82%, rgba(111, 34, 90, .15), transparent 40%),
+          #100812;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+
+      button { font: inherit; }
+
+      .stars, .hearts {
+        position: fixed;
+        z-index: 0;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .stars {
+        opacity: .7;
+        background-image:
+          radial-gradient(1px 1px at 12% 18%, #fff 98%, transparent),
+          radial-gradient(1px 1px at 70% 12%, #e7c7ff 98%, transparent),
+          radial-gradient(2px 2px at 87% 63%, #fff 98%, transparent),
+          radial-gradient(1px 1px at 35% 76%, #e7c7ff 98%, transparent),
+          radial-gradient(1px 1px at 58% 91%, #fff 98%, transparent),
+          radial-gradient(1px 1px at 24% 52%, #fff 98%, transparent);
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        padding: 55px 20px 52px;
+      }
+
+      .intro, .birthday {
+        width: min(100%, 660px);
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: #d6a5ef;
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .3em;
+        text-transform: uppercase;
+      }
+
+      h1, h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      h1 {
+        color: #fff5ff;
+        font-size: clamp(2.5rem, 8vw, 4.4rem);
+        line-height: 1.08;
+        text-shadow: 0 0 34px rgba(220, 147, 255, .35);
+      }
+
+      .intro-copy {
+        max-width: 440px;
+        margin: 14px auto 23px;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .surprise-button {
+        display: grid;
+        justify-items: center;
+        gap: 13px;
+        margin: 6px auto 0;
+        padding: 7px 18px 12px;
+        color: var(--text);
+        border: 0;
+        border-radius: 20px;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .gift {
+        position: relative;
+        display: block;
+        width: 118px;
+        height: 104px;
+        filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .32));
+        transition: transform .28s ease, filter .28s ease;
+      }
+
+      .gift-box {
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+        left: 10px;
+        display: block;
+        height: 65px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 225, 255, .5);
+        border-radius: 8px 8px 12px 12px;
+        background: linear-gradient(135deg, #f896d1, #d061b8 55%, #9f4caa);
+      }
+
+      .gift-box::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 17px;
+        background: linear-gradient(90deg, #ffe4a5, #fff2c9, #ffc769);
+        content: "";
+        transform: translateX(-50%);
+      }
+
+      .gift-lid {
+        position: absolute;
+        z-index: 1;
+        top: 30px;
+        right: 4px;
+        left: 4px;
+        display: block;
+        height: 17px;
+        border: 1px solid rgba(255, 240, 255, .65);
+        border-radius: 5px;
+        background: linear-gradient(100deg, #ffb2dd, #f184cf 48%, #da75c9);
+        transform-origin: 10% 95%;
+        transition: transform .55s cubic-bezier(.2, .8, .2, 1);
+      }
+
+      .gift-lid::before {
+        position: absolute;
+        inset: 0;
+        width: 15px;
+        margin: auto;
+        background: linear-gradient(90deg, #ffe4a5, #fff2c9, #ffc769);
+        content: "";
+      }
+
+      .gift-bow {
+        position: absolute;
+        z-index: 2;
+        top: 12px;
+        left: 50%;
+        display: block;
+        width: 38px;
+        height: 22px;
+        transform: translateX(-50%);
+      }
+
+      .gift-bow::before, .gift-bow::after {
+        position: absolute;
+        top: 2px;
+        width: 20px;
+        height: 15px;
+        border: 3px solid #ffe3a0;
+        border-radius: 80% 80% 25% 80%;
+        content: "";
+      }
+
+      .gift-bow::before {
+        left: 0;
+        transform: rotate(28deg);
+      }
+
+      .gift-bow::after {
+        right: 0;
+        border-radius: 80% 80% 80% 25%;
+        transform: rotate(-28deg);
+      }
+
+      .surprise-label {
+        color: #ffe5fb;
+        font-size: .9rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-shadow: 0 0 18px rgba(255, 141, 204, .4);
+      }
+
+      .surprise-button:hover .gift {
+        filter: drop-shadow(0 15px 30px rgba(232, 119, 205, .48));
+        transform: translateY(-5px) scale(1.05);
+      }
+
+      .surprise-button:hover .gift-lid {
+        transform: translate(-5px, -10px) rotate(-17deg);
+      }
+
+      .surprise-button.is-opening .gift {
+        animation: gift-pop .7s cubic-bezier(.2, .8, .2, 1);
+      }
+
+      .surprise-button.is-opening .gift-lid {
+        transform: translate(-9px, -14px) rotate(-28deg);
+      }
+
+      .surprise-button:focus-visible, .close-button:focus-visible {
+        outline: 3px solid white;
+        outline-offset: 4px;
+      }
+
+      .divider {
+        width: 78px;
+        height: 1px;
+        margin: 28px auto 25px;
+        background: linear-gradient(90deg, transparent, rgba(255, 158, 219, .65), transparent);
+      }
+
+      .birthday {
+        padding: 25px 25px 22px;
+        border: 1px solid rgba(221, 164, 246, .14);
+        border-radius: 19px;
+        background: linear-gradient(145deg, rgba(39, 19, 50, .8), rgba(20, 12, 29, .86));
+        box-shadow: 0 20px 75px rgba(0, 0, 0, .28), 0 0 50px rgba(124, 51, 151, .1);
+        backdrop-filter: blur(8px);
+      }
+
+      .birthday h2 {
+        color: #fff0ff;
+        font-size: clamp(2rem, 7vw, 3rem);
+        text-shadow: 0 0 25px rgba(240, 154, 255, .3);
+      }
+
+      .birthday-copy {
+        max-width: 470px;
+        margin: 11px auto 19px;
+        color: #d9c9df;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: .91rem;
+        line-height: 1.7;
+      }
+
+      .memory-title {
+        margin: 18px 0 10px;
+        color: #e5c0f2;
+        font-size: .67rem;
+        font-weight: 700;
+        letter-spacing: .24em;
+        text-transform: uppercase;
+      }
+
+      .birthday-video {
+        display: block;
+        width: min(100%, 460px);
+        max-height: 420px;
+        margin: 0 auto;
+        border: 1px solid rgba(238, 177, 255, .22);
+        border-radius: 12px;
+        background: #090610;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, .35), 0 0 28px rgba(145, 73, 202, .13);
+        object-fit: contain;
+      }
+
+      .signature {
+        margin: 18px 0 0;
+        color: #a99ab6;
+        font-size: .76rem;
+      }
+
+      .heart {
+        position: absolute;
+        bottom: -40px;
+        color: #f08fcb;
+        opacity: 0;
+        animation: float-up var(--duration, 8s) linear forwards;
+      }
+
+      .modal {
+        position: fixed;
+        z-index: 3;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        background: rgba(8, 5, 13, .78);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .25s ease, visibility .25s ease;
+      }
+
+      .modal.is-open { opacity: 1; visibility: visible; }
+
+      .message {
+        position: relative;
+        width: min(100%, 560px);
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 34px 30px 30px;
+        border: 1px solid rgba(238, 177, 255, .3);
+        border-radius: 20px;
+        background: linear-gradient(145deg, #2b1c3c, #191124);
+        box-shadow: 0 0 65px rgba(176, 95, 234, .24);
+        text-align: left;
+        transform: translateY(12px) scale(.97);
+        transition: transform .25s ease;
+      }
+
+      .modal.is-open .message { transform: translateY(0) scale(1); }
+
+      .close-button {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        color: #d7c5e1;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .08);
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+
+      .message .emoji { margin: 0 0 12px; font-size: 2.5rem; text-align: center; }
+      .message h2 { margin: 0 0 20px; font-size: 2rem; text-align: center; }
+      .message .message-copy { margin: 0 0 15px; color: #e3d8ec; font-size: .94rem; line-height: 1.8; }
+      .message .song-note {
+        margin: 0 0 15px;
+        padding: 15px 17px;
+        color: #ecd9f3;
+        border-left: 2px solid #df9de9;
+        border-radius: 0 10px 10px 0;
+        background: rgba(255, 255, 255, .045);
+        font-size: .9rem;
+        line-height: 1.75;
+      }
+      .message .message-signoff { margin: 0; color: #ffb7df; font-weight: 700; line-height: 1.8; }
+
+      .confetti {
+        position: fixed;
+        z-index: 4;
+        top: -12px;
+        width: 8px;
+        height: 12px;
+        border-radius: 2px;
+        pointer-events: none;
+        animation: fall var(--duration) ease-in forwards;
+      }
+
+      @keyframes float-up {
+        0% { opacity: 0; transform: translateY(0) rotate(-12deg) scale(.7); }
+        12% { opacity: .72; }
+        100% { opacity: 0; transform: translateY(-105vh) rotate(22deg) scale(1.3); }
+      }
+
+      @keyframes fall {
+        to { transform: translate3d(var(--drift), 105vh, 0) rotate(720deg); opacity: .9; }
+      }
+
+      @keyframes gift-pop {
+        35% { transform: translateY(-14px) scale(1.08); }
+        70% { transform: translateY(2px) scale(.98); }
+      }
+
+      @media (max-width: 480px) {
+        .page { padding: 42px 15px 35px; }
+        .birthday { padding: 23px 16px 20px; }
+        .gift { transform: scale(.92); }
+        .message { padding: 31px 23px 25px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          scroll-behavior: auto !important;
+          animation-duration: .01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: .01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true"></div>
+    <div class="hearts" aria-hidden="true"></div>
+
+    <main class="page">
+      <header class="intro">
+        <p class="eyebrow">A little something made just for you</p>
+        <h1>Today is all<br>about you</h1>
+        <p class="intro-copy">A little surprise for the person who makes every day brighter. 💜</p>
+        <button class="surprise-button" id="open-message" type="button" aria-label="Open your birthday surprise" aria-haspopup="dialog" aria-controls="birthday-modal">
+          <span class="gift" aria-hidden="true">
+            <span class="gift-bow"></span>
+            <span class="gift-lid"></span>
+            <span class="gift-box"></span>
+          </span>
+          <span class="surprise-label">Tap to open your surprise ✨</span>
+        </button>
+      </header>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <section class="birthday" aria-labelledby="birthday-title">
+        <p class="eyebrow">Today is all about you</p>
+        <h2 id="birthday-title">Happy Birthday</h2>
+        <p class="birthday-copy">
+          May your special day be filled with joy, love, and beautiful memories.
+          Here is a little moment I wanted to share with you. 💜
+        </p>
+        <p class="memory-title">A moment for you</p>
+        <video class="birthday-video" controls playsinline preload="metadata" aria-label="Birthday memory video">
+          <source src="birthday-video.mp4" type="video/mp4">
+          Your browser does not support this video.
+        </video>
+        <p class="signature">Made with love, just for you ♡</p>
+      </section>
+    </main>
+
+    <div class="modal" id="birthday-modal" role="dialog" aria-modal="true" aria-labelledby="message-title" aria-hidden="true">
+      <section class="message">
+        <button class="close-button" id="close-message" type="button" aria-label="Close message">×</button>
+        <p class="emoji" aria-hidden="true">🎂💜🎈</p>
+        <h2 id="message-title">Happy Birthday!</h2>
+        <p class="message-copy">
+          Happy birthday, whether in advance or belated! I just want to say thank you for everything, and I hope you appreciate what I made for you. I hope you enjoy your birthday, and I hope you overcome all the trials you are facing in life.
+        </p>
+        <p class="message-copy">
+          I remember when you told me that you went through depression, and my heart really went out to you every time you shared that story. I am always here for you—I will always hug you even if we don't talk as much anymore, whether online or in person.
+        </p>
+        <p class="message-copy">
+          And please don't feel insecure anymore, okay? It reminded me of the song <em>Corazón Sin Cara</em>.
+        </p>
+        <p class="song-note">
+          Its message is that love goes beyond appearance, body type, or skin color. Nobody is perfect, and everyone can have insecurities. What matters is loving and accepting each other just as we are.
+        </p>
+        <p class="message-copy">
+          And that's all! Enjoy your birthday and I love you! Mweheheheheh!
+        </p>
+      </section>
+    </div>
+
+    <script>
+      const modal = document.querySelector("#birthday-modal");
+      const openButton = document.querySelector("#open-message");
+      const closeButton = document.querySelector("#close-message");
+      const hearts = document.querySelector(".hearts");
+      const confettiColors = ["#ff82c9", "#d9a4ff", "#ffcf79", "#a8e6cf", "#ffffff"];
+      let previousFocus;
+
+      function openMessage() {
+        previousFocus = document.activeElement;
+        openButton.classList.add("is-opening");
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        closeButton.focus();
+        celebrate();
+      }
+
+      function closeMessage() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        openButton.classList.remove("is-opening");
+        if (previousFocus) previousFocus.focus();
+      }
+
+      function celebrate() {
+        for (let i = 0; i < 48; i += 1) {
+          const piece = document.createElement("span");
+          piece.className = "confetti";
+          piece.style.left = `${Math.random() * 100}vw`;
+          piece.style.backgroundColor = confettiColors[i % confettiColors.length];
+          piece.style.setProperty("--drift", `${(Math.random() - 0.5) * 180}px`);
+          piece.style.setProperty("--duration", `${2.2 + Math.random() * 2.3}s`);
+          document.body.append(piece);
+          piece.addEventListener("animationend", () => piece.remove(), { once: true });
+        }
+      }
+
+      function floatHeart() {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = Math.random() > 0.5 ? "♡" : "♥";
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.fontSize = `${14 + Math.random() * 16}px`;
+        heart.style.setProperty("--duration", `${7 + Math.random() * 5}s`);
+        hearts.append(heart);
+        heart.addEventListener("animationend", () => heart.remove(), { once: true });
+      }
+
+      openButton.addEventListener("click", openMessage);
+      closeButton.addEventListener("click", closeMessage);
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeMessage();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("is-open")) closeMessage();
+      });
+      window.setInterval(floatHeart, 800);
+    </script>
+  </body>
+</html>
